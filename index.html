@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Customer Spiel SMS</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <h1>SMS Spiel</h1>
+    <input type="text" id="nameInput" placeholder="Enter your name" />
+    <input type="date" id="dateInput" name="tentative-date" />
+
+    <div class="radio-buttons">
+      <input
+        type="radio"
+        id="greeting1"
+        name="greeting"
+        value="for-pick-up"
+        checked
+      />
+      <label for="greeting1">Ready for Pick Up</label>
+
+      <input
+        type="radio"
+        id="greeting2"
+        name="greeting"
+        value="delayed-lens-delivery"
+      />
+      <label for="greeting2">Delayed Lens Delivery</label>
+
+      <input
+        type="radio"
+        id="greeting3"
+        name="greeting"
+        value="frame-to-follow"
+      />
+      <label for="greeting3">Frame to Follow</label>
+
+      <input type="radio" id="greeting4" name="greeting" value="unclaimed" />
+      <label for="greeting4">Unclaimed (>60 days)</label>
+
+      <input
+        type="radio"
+        id="greeting5"
+        name="greeting"
+        value="delayed-planner"
+      />
+      <label for="greeting5">Delayed Planner</label>
+    </div>
+
+    <button onclick="generateGreeting()">GENERATE TEXT MESSAGE</button>
+    <textarea id="outputTextarea" rows="8" readonly></textarea>
+    <button id="copyOutput" onclick="copyOutput()">COPY OUTPUT</button>
+    <button onclick="clearTextarea()">CLEAR</button>
+    <script src="script.js"></script>
+  </body>
+</html>
