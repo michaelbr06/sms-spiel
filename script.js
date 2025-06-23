@@ -1,81 +1,115 @@
-function generateGreeting() {
-  const name = document.getElementById("nameInput").value;
-  const inputDate = new Date(document.getElementById("dateInput").value);
-  const format = { year: "numeric", month: "long", day: "2-digit" };
-  const formattedDate = inputDate.toLocaleDateString("en-US", format);
-  const greetingRadio = document.querySelector(
-    'input[name="greeting"]:checked'
-  );
-  const outputTextarea = document.getElementById("outputTextarea");
-  outputTextarea.value = ""; // Clear the textarea
+        document.addEventListener('DOMContentLoaded', () => {
+            const nameInput = document.getElementById('name');
+            const dateInput = document.getElementById('date');
+            const statusButtonsContainer = document.getElementById('status-buttons-container');
+            const messageDisplay = document.getElementById('message-display');
+            const copyMessageButton = document.getElementById('copy-message-button');
+            let currentActiveButton = null; // Variable to keep track of the currently active button
 
-  //  Message inputs
-  const intro = `Good day, ${name}! Thank you for choosing MBR Optics!`;
+            // Function to copy text to clipboard
+            function copyToClipboard(text) {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    console.log('Text copied to clipboard!');
+                    return true;
+                } catch (err) {
+                    console.error('Failed to copy text:', err);
+                    return false;
+                } finally {
+                    document.body.removeChild(textarea);
+                }
+            }
 
-  const introDelay = `Good day from MBR Optics, ${name}!`;
+            statusButtonsContainer.addEventListener('click', (event) => {
+                const clickedButton = event.target.closest('.status-button');
 
-  const pickUpMessage = `We're glad to inform you that your eyeglasses are now ready for pick up here at MBR Optics.`;
+                // Ensure a status button was clicked
+                if (clickedButton) {
+                    // If there's an active button, remove its 'active' class
+                    if (currentActiveButton) {
+                        currentActiveButton.classList.remove('active');
+                    }
 
-  const frameToFollowMessage = `We're glad to inform you that your lenses have been delivered to our store here at MBR Optics.`;
+                    // Add 'active' class to the newly clicked button
+                    clickedButton.classList.add('active');
 
-  const delayedLensDeliveryMessage = `Please be informed that there may be a delay in the delivery of your purchased lenses to our store.`;
+                    // Update the reference to the current active button
+                    currentActiveButton = clickedButton;
 
-  const tentativeDate = `New tentative delivery date is: ${formattedDate}`;
+                    // Get input values
+                    const name = nameInput.value.trim();
+                    const date = dateInput.value; // Date input value is already a string in 'YYYY-MM-DD' format
 
-  const contactUs = `For any other concerns, you may reach us through this number. Thank you for your patience and understanding.`;
+                    // Format date for display (e.g., "June 23, 2025") if possible
+                    let formattedDate = date;
+                    if (date) {
+                        try {
+                            const dateObj = new Date(date + 'T00:00:00'); // Add T00:00:00 to handle timezone issues
+                            formattedDate = dateObj.toLocaleDateString('en-US', {
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                            });
+                        } catch (e) {
+                            console.error("Error formatting date:", e);
+                            formattedDate = date; // Fallback to original if formatting fails
+                        }
+                    } else {
+                        formattedDate = "N/A"; // Or any other placeholder for empty date
+                    }
 
-  const frameToFollowReqs = `Kindly bring your frame and warranty card for assembly.`;
+                    let message = '';
+                    const status = clickedButton.dataset.status;
 
-  const confirmReceipt = `Please confirm when you have received this message.`;
+                    // Generate message based on selected status
+                    switch (status) {
+                        case 'ready-for-pickup':
+                            message = `Good day, ${name || 'customer'}! Thank you for choosing our OWNDAYS Robinsons Place Antipolo.\n\nWe're glad to inform you that your eyeglasses are now ready for pick up.\n\n Please confirm when you have received this message.\n\nStore hours:\n10:00 AM - 10:00 PM\nMon - Sun.`;
+                            break;
+                        case 'delayed-lens-delivery':
+                            message = `Good day, ${name || 'customer'}! Thank you for your purchase here at OWNDAYS Robinsons Place Antipolo.\n\nPlease be informed that there may be a delay in the delivery of your lenses.\n\nNew tentative delivery date is on ${formattedDate}.\n\nPlease confirm when you have received this message.\n\nIf you have any other concerns, please don't hesitate to contact us through this number.\n\nThank you for your kind understanding.`;
+                            break;
+                        case 'frame-to-follow':
+                            message = `Good day, ${name || 'customer'}! Thank you for choosing OWNDAYS Robinsons Place Antipolo.\n\nWe're glad to let you know that your lenses has been delivered in our store. Please bring your chosen frame and warranty card for assembly.\n\nWe would very much appreciate it if you could visit our store before 8:00 PM so that we have enough time to make any further adjustments, if needed.\n\nPlease confirm when you have received this message.\n\nStore Hours:\n10:00 AM - 10:00 PM\nMon - Sun`;
+                            break;
+                        case 'unclaimed-60-days':
+                            message = `Good day, ${name || 'customer'}! Thank you for your purchase last ${formattedDate}. We're going to have to dispose your purchased items. Sorry.`;
+                            break;
+                        default:
+                            message = 'Please select a status.';
+                    }
 
-  const storeHours = `Store hours:\n10:00 AM - 10:00 PM\nMon - Sun`;
+                    // Display the message
+                    if (message) {
+                        messageDisplay.textContent = message;
+                        messageDisplay.classList.remove('hidden'); // Make the message area visible
+                        copyMessageButton.classList.remove('hidden'); // Make copy button visible
+                    } else {
+                        messageDisplay.classList.add('hidden'); // Hide if no message
+                        copyMessageButton.classList.add('hidden'); // Hide copy button
+                    }
 
-  const storeHoursFrameToFollow = `Store hours:\n10:00 AM - 9:00 PM\nMon - Sun`;
+                    // Reset copy button text if a new status is selected
+                    copyMessageButton.textContent = 'Copy Message';
+                    console.log('Selected Status:', status);
+                }
+            });
 
-  const lineBrk = `\n`;
-
-  const unclaimedMsg = `We hope this message finds you well. We appreciate your visit to MBR Optics. However, it has come to our attention that there are unclaimed items purchased under your name: `;
-
-  const ensureMsg = `To ensure smooth and efficient process, we kindly request you to collect your purchased items at your earliest convenience. Our team is ready to provide further assistance for any concerns you may have in collecting your said items.`;
-
-  const unclaimedReminders = `Please be reminded on our storage period below: \n\n1) Purchased items will be held by the manager for a maximum of 60 days from DATE OF PICK-UP/PURCHASE;\n\n2) After 60 days, purchased items will be sent to our Head Office c/o Operations for safekeeping for another 30 days.\n\n`;
-
-  const unclaimedDisregardMsg = `If you have already collected your items, please disregard this message. Thank you.`;
-
-  const boilerPlateItems = `<qty, item/s>`;
-
-  const plannerDelayMsg = `We're glad to inform you that your New Year's Planner is now ready for pick up here at MBR Optics.`;
-
-  const sayGratitudeMsg = `Thank you for your patience and kind understanding for the delay in receiving your item.`;
-
-  if (name && greetingRadio) {
-    const greeting = greetingRadio.value; // Store the value of the selected radio button
-    let message = "";
-
-    if (greeting === "for-pick-up") {
-      message = `${intro}${lineBrk}${lineBrk}${pickUpMessage}${lineBrk}${lineBrk}${confirmReceipt}${lineBrk}${lineBrk}${storeHours}`;
-    } else if (greeting === "frame-to-follow") {
-      message = `${intro}${lineBrk}${lineBrk}${frameToFollowMessage}${lineBrk}${lineBrk}${frameToFollowReqs}${lineBrk}${lineBrk}${confirmReceipt}${lineBrk}${lineBrk}${storeHoursFrameToFollow}`;
-    } else if (greeting === "delayed-lens-delivery") {
-      message = `${introDelay}${lineBrk}${lineBrk}${delayedLensDeliveryMessage}${lineBrk}${lineBrk}${tentativeDate}${lineBrk}${lineBrk}${confirmReceipt}${lineBrk}${lineBrk}${contactUs}${lineBrk}${lineBrk}${storeHours}`;
-    } else if (greeting === "unclaimed") {
-      message = `${intro}${lineBrk}${lineBrk}${unclaimedMsg}${lineBrk}${lineBrk}${boilerPlateItems}${lineBrk}${lineBrk}${unclaimedReminders}${unclaimedDisregardMsg}${lineBrk}${lineBrk}${storeHours}`;
-    } else if (greeting === "delayed-planner") {
-      message = `${introDelay}${lineBrk}${lineBrk}${sayGratitudeMsg}${lineBrk}${lineBrk}${plannerDelayMsg}${lineBrk}${lineBrk}${confirmReceipt}	${lineBrk}${lineBrk}${storeHours}`;
-    }
-
-    outputTextarea.value = message;
-  } else {
-    outputTextarea.value = "Please enter a name and select a greeting.";
-  }
-}
-
-function copyOutput() {
-  const textarea = document.getElementById("outputTextarea");
-  textarea.select();
-  navigator.clipboard.writeText(textarea.value);
-}
-
-function clearTextarea() {
-  document.getElementById("outputTextarea").value = "";
-}
+            // Event listener for the copy message button
+            copyMessageButton.addEventListener('click', () => {
+                const messageToCopy = messageDisplay.textContent;
+                if (copyToClipboard(messageToCopy)) {
+                    copyMessageButton.textContent = 'Message Copied!';
+                    setTimeout(() => {
+                        copyMessageButton.textContent = 'Copy Message';
+                    }, 2000); // Revert after 2 seconds
+                } else {
+                    // Optionally, handle copy failure (e.g., show a small error message)
+                    console.error('Failed to copy message to clipboard.');
+                }
+            });
+        });
