@@ -68,16 +68,16 @@
                     // Generate message based on selected status
                     switch (status) {
                         case 'ready-for-pickup':
-                            message = `Good day, ${name || 'customer'}! Thank you for choosing Vision Learning Clinic.\n\nWe're glad to inform you that your eyeglasses are now ready for pick up.\n\nPlease confirm when you have received this message.\n\nStore hours:\n10:00 AM - 10:00 PM\nMon - Sun.`;
+                            message = `Good day, ${name || 'customer'}! Thank you for choosing OWNDAYS Robinsons Place - Antipolo.\n\nWe're glad to inform you that your eyeglasses are now ready for pick up.\n\n Please confirm when you have received this message.\n\nStore hours:\n10:00 AM - 10:00 PM\nMon - Sun.`;
                             break;
                         case 'delayed-lens-delivery':
-                            message = `Good day, ${name || 'customer'}! Thank you for your purchase here at Vision Learning Clinic.\n\nPlease be informed that there may be a delay in the delivery of your lenses.\n\nNew tentative delivery date is on ${formattedDate}.\n\nPlease confirm when you have received this message.\n\nIf you have any other concerns, please don't hesitate to contact us through this number.\n\nThank you for your kind understanding.`;
+                            message = `Good day, ${name || 'customer'}! Thank you for your purchase here at OWNDAYS Robinsons Place - Antipolo.\n\nPlease be informed that there may be a delay in the delivery of your lenses.\n\nNew tentative delivery date is on ${formattedDate}.\n\nPlease confirm when you have received this message.\n\nIf you have any other concerns, please don't hesitate to contact us through this number.\n\nThank you for your kind understanding.`;
                             break;
                         case 'frame-to-follow':
-                            message = `Good day, ${name || 'customer'}! Thank you for choosing the Vision Learning Clinic.\n\nWe're glad to let you know that your lenses has been delivered in our store. Please bring your chosen frame and warranty card for assembly.\n\nWe would very much appreciate it if you could visit our store before 8:00 PM so that we have enough time to make any further adjustments, if needed.\n\nPlease confirm when you have received this message.\n\nStore Hours:\n10:00 AM - 10:00 PM\nMon - Sun`;
+                            message = `Good day, ${name || 'customer'}! Thank you for choosing OWNDAYS Robinsons Place - Antipolo.\n\nWe're glad to let you know that your lenses has been delivered in our store. Please bring your chosen frame and warranty card for assembly.\n\nWe would very much appreciate it if you could visit our store before 8:00 PM so that we have enough time to make any further adjustments, if needed.\n\nPlease confirm when you have received this message.\n\nStore Hours:\n10:00 AM - 10:00 PM\nMon - Sun`;
                             break;
                         case 'unclaimed-60-days':
-                            message = `Good day, ${name || 'customer'}! Thank you for your purchase last ${formattedDate}. We're going to have to dispose your purchased items. Sorry.`;
+                            message = `Good day, ${name || 'customer'}! Thank you for your purchase last ${formattedDate}. We're going to have to dispose your purchased items. Sorry. (Please do not use this yet.)`;
                             break;
                         default:
                             message = 'Please select a status.';
