@@ -68,7 +68,7 @@
                     // Generate message based on selected status
                     switch (status) {
                         case 'ready-for-pickup':
-                            message = `Good day, ${name || 'customer'}! Thank you for choosing Vision Learning Clinic.\n\nWe're glad to inform you that your eyeglasses are now ready for pick up.\n\n Please confirm when you have received this message.\n\nStore hours:\n10:00 AM - 10:00 PM\nMon - Sun.`;
+                            message = `Good day, ${name || 'customer'}! Thank you for choosing Vision Learning Clinic.\n\nWe're glad to inform you that your eyeglasses are now ready for pick up.\n\nPlease confirm when you have received this message.\n\nStore hours:\n10:00 AM - 10:00 PM\nMon - Sun.`;
                             break;
                         case 'delayed-lens-delivery':
                             message = `Good day, ${name || 'customer'}! Thank you for your purchase here at Vision Learning Clinic.\n\nPlease be informed that there may be a delay in the delivery of your lenses.\n\nNew tentative delivery date is on ${formattedDate}.\n\nPlease confirm when you have received this message.\n\nIf you have any other concerns, please don't hesitate to contact us through this number.\n\nThank you for your kind understanding.`;
